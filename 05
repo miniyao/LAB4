@@ -1,0 +1,73 @@
+package books.dao;
+
+import java.sql.Date;
+
+public class Books {
+	private String ISBN;
+	private String title;
+	private String autherid;
+	private String publisher;
+	private Date publishdate;
+	private String price;
+	private String age;
+	private String country;
+	private String name;
+
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getAge() {
+		return age;
+	}
+	public void setAge(String age) {
+		this.age = age;
+	}
+	public String getCountry() {
+		return country;
+	}
+	public void setCountry(String country) {
+		this.country = country;
+	}
+	public String getISBN() {
+		return ISBN;
+	}
+	public void setISBN(String iSBN) {
+		ISBN = iSBN;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public String getAutherid() {
+		return autherid;
+	}
+	public void setAutherid(String autherid) {
+		this.autherid = autherid;
+	}
+	public String getPublisher() {
+		return publisher;
+	}
+	public void setPublisher(String publisher) {
+		this.publisher = publisher;
+	}
+	public Date getPublishdate() {
+		return publishdate;
+	}
+	public void setPublishdate(Date publishdate) {
+		this.publishdate = publishdate;
+	}
+	public String getPrice() {
+		return price;
+	}
+	public void setPrice(String price) {
+		this.price = price;
+	}
+	
+	
+}
