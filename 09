@@ -1,0 +1,20 @@
+import java.util.*;
+import java.io.*;
+public class lab1 {
+	 private static int num;
+     private static int temp;
+    public static void main(String args[])
+    {
+    	int k=0;
+    	Scanner a=new Scanner(System.in);
+    	System.out.println("请输入空瓶数");
+    	num=a.nextInt();
+    	while(num>=3)
+    	{
+    	temp=num/3;
+    	k=k+temp;
+        num=num/3+num%3;
+        }
+    	System.out.print("小张能喝的汽水瓶数为\n"+k);
+    }
+}
