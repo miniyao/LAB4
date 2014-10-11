@@ -1,0 +1,57 @@
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class yuesefu {  
+	private static int count=0;//定义数到的人的编号count
+	public static void main(String[] args) {
+		Scanner scanner=new Scanner(System.in);
+		System.out.println("请输入人数：");
+		int n=scanner.nextInt();
+		//System.out.println("请输入出局号码：");
+		//int m=scanner.nextInt();
+		int m=2;
+		long s1  = System.currentTimeMillis();
+		sortP(n,m);			
+		long s2  = System.currentTimeMillis();		
+		//System.out.println("所用总时间："+(s2-s1));
+	}
+
+	private static void sortP(int n, int m) {
+		if(n==1){//特殊情况
+			System.out.println(n);;
+		}else {
+			f1(n, m);
+		}
+	}
+	//当人数大于1时执行此函数
+	private static void f1(int n, int m) {		
+		int[] arr = new int[n];
+		for(int j=0;j<n;j++){//循环执行n（总人数）次，排出出局次序
+			for(int i = 0;i<m;i++){				    
+				count++;//每数一人count加1	
+				measure(j, arr);//判断count是否已在数组中
+				if(count>n){
+					count=1;//若count大于总人数将其置1
+					measure(j, arr);//继续进行判断
+				}				
+			}
+			arr[j]=count;//将出局人序号保存至数组
+		}
+		System.out.println("出局顺序为："+Arrays.toString(arr));
+		System.out.println("幸运儿为："+arr[n-1]+" "+arr[n-2]);
+		System.out.println("应该站在"+arr[n-1]+" "+arr[n-2]+"的位置");
+	}
+    
+	/*用于判断count是否已存在，若存在count加1继续判断
+	 * 此函数用双重循环，若为单重不能保证count在数组唯一
+	 * */
+	private static void measure(int j,int[] arr) {
+		for(int s = 0;s<j;s++){
+			for(int w=0;w<j;w++){
+				if(count==arr[w]) count++;
+			}
+		}			
+	}
+}
+
+
