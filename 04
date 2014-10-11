@@ -1,0 +1,279 @@
+package books.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.sql.Date;
+import java.util.List;
+
+
+public class BooksDao {
+
+	
+	//查询
+	public List<Books> select(String name) throws SQLException {
+		// TODO Auto-generated method stub
+		Connection con = SqlUtil.getConnection();
+		Connection con1 = SqlUtil.getConnection();
+		PreparedStatement ps = null;
+		PreparedStatement ps1 = null;
+		ResultSet rs = null;
+		ResultSet rs1 = null;
+		String id= null;
+		List<Books> list = new ArrayList<Books>();
+		StringBuffer sql1 = new StringBuffer("select * from bookdb.author where Name= "+"'"+name+"'");
+	
+	
+		// 如果查询条件不空，则增加此条件
+		List<String> params = new ArrayList<String>();
+		
+		try {
+		
+		
+			ps1 = con1.prepareStatement(sql1.toString());
+			for (int i = 0; i < params.size(); i++) {
+				ps1.setString(i + 1, "%" + params.get(i) + "%");
+			}
+			System.out.println(ps1);
+			rs1 = ps1.executeQuery();
+		
+			while (rs1.next()) {
+				
+			id = rs1.getString(1);
+		
+		
+			}
+		} finally {
+			SqlUtil.closeConnection(null, ps1, con1);
+			
+		}
+		
+		StringBuffer sql = new StringBuffer("select * from bookdb.book where AuthorID="+id);
+		try {
+			
+		
+			ps = con.prepareStatement(sql.toString());
+			for (int i = 0; i < params.size(); i++) {
+				ps.setString(i + 1, "%" + params.get(i) + "%");
+			}
+			rs = ps.executeQuery();
+		
+			while (rs.next()) {
+				Books book = new Books();
+			
+				book.setISBN(rs.getString(1));
+				book.setTitle(rs.getString(2));
+				book.setAutherid(rs.getString(3));
+				book.setPublisher(rs.getString(4));
+			
+		
+				list.add(book);
+			}
+		} finally {
+			SqlUtil.closeConnection(null, ps, con);
+			
+		}
+		
+		return list;
+	}
+
+	
+	@SuppressWarnings("null")
+	public void insert(String name,String ISBN,String title,String publisher,Date publishdate,String price,String age,String country) throws SQLException {
+		Connection con1 = SqlUtil.getConnection();
+		PreparedStatement ps1 = null;
+		ResultSet rs1 = null;
+		String id= null;
+		StringBuffer sql1 = new StringBuffer("select * from bookdb.author where Name= "+"'"+name+"'");
+		try {
+			ps1 = con1.prepareStatement(sql1.toString());
+			rs1 = ps1.executeQuery();
+			while (rs1.next()) {
+				id = rs1.getString(1);
+		
+			}
+		} finally {
+			SqlUtil.closeConnection(null, ps1, con1);
+			
+		}
+		
+		
+		if(id==null){
+			System.out.println("congming");
+			String sql2 = "select * from bookdb.author  order by AuthorID desc" ;
+			String sql = "INSERT INTO bookdb.book (ISBN,Title, AuthorID, Publisher, PublishDate, Price)"
+					+ " VALUES(?,?,?,?,?,?)";
+			String sql3 = "INSERT INTO bookdb.author (AuthorID, Name, Age, Country)"
+					+ " VALUES(?,?,?,?)";
+			PreparedStatement st = null;
+			PreparedStatement st2 = null;
+			ResultSet rs = null;
+			ResultSet rs2 = null;
+			Connection con = null;
+			Connection con2 = null;
+			int id1 =0;
+			int row = 0;
+			try {
+				con = SqlUtil.getConnection();
+				con2 = SqlUtil.getConnection();
+				st = con.prepareStatement(sql2);
+				//求 id1
+				rs = st.executeQuery();
+				if (rs.next()) {
+					int i=Integer.parseInt(rs.getString(1));
+					id1=i+1;
+				}
+				// insert
+				con = SqlUtil.getConnection();
+				st = con.prepareStatement(sql);
+				st2 = con.prepareStatement(sql3);
+				st.setString(1, ISBN);
+				st.setString(2, title);
+				st.setString(3, id1+"");
+				st.setString(4, publisher);
+				st.setDate(5, publishdate);
+				st.setString(6, price);
+				st2.setString(1, id1+"");
+				st2.setString(2, name);
+				st2.setString(3, age);
+				st2.setString(4, country);
+				
+		System.out.println(st2);
+			row = st2.executeUpdate();
+				row = st.executeUpdate();
+			
+
+			} finally {
+				SqlUtil.closeConnection(rs, st, con);
+				SqlUtil.closeConnection(rs2, st2, con2);
+			}
+		}
+		
+		else{
+			String sql = "INSERT INTO bookdb.book (ISBN,Title, AuthorID, Publisher, PublishDate, Price)"
+					+ " VALUES(?,?,?,?,?,?)";
+			PreparedStatement st = null;
+			ResultSet rs = null;
+			Connection con = null;
+			int row = 0;
+			try {
+				// insert
+				con = SqlUtil.getConnection();
+				st = con.prepareStatement(sql);
+				st.setString(1, ISBN);
+				st.setString(2, title);
+				st.setString(3, id);
+				st.setString(4, publisher);
+				st.setDate(5, publishdate);
+				st.setString(6, price);
+			System.out.println(st);
+			
+				row = st.executeUpdate();
+
+			} finally {
+				SqlUtil.closeConnection(rs, st, con);
+			}
+			
+		}
+		
+		
+		
+		
+	
+	}
+
+	//删除
+	public void deletee(String ISBN) throws SQLException {
+		String sql = "delete from bookdb.book where ISBN=?";
+
+		Connection con = null;
+		PreparedStatement st = null;
+
+		try {
+			con = SqlUtil.getConnection();
+			st = con.prepareStatement(sql);
+			st.setString(1, ISBN);
+			System.out.println(st);
+			st.executeUpdate();
+
+		} finally {
+			SqlUtil.closeConnection(null, st, con);
+		}
+	}
+	public Books checking(String ISBN) throws SQLException {
+		// TODO Auto-generated method stub
+		Connection conn = SqlUtil.getConnection();
+		Connection conn1 = SqlUtil.getConnection();
+		PreparedStatement ps = null;
+		PreparedStatement ps1 = null;
+		ResultSet rs = null;
+		ResultSet rs1 = null;
+		Books Books = null;
+		try {
+			String sql = "select* from bookdb.book where ISBN=?";
+			String sql1 = "select* from bookdb.author where AuthorID=?";
+			ps = conn.prepareStatement(sql);
+			ps1 = conn.prepareStatement(sql1);
+			ps.setString(1, ISBN);
+			
+			rs = ps.executeQuery();
+			
+	
+			if (rs.next()) {
+				Books = new Books();
+				Books.setISBN(rs.getString(1));
+				Books.setTitle(rs.getString(2));
+				Books.setAutherid(rs.getString(3));
+				Books.setPublisher(rs.getString(4));
+				Books.setPublishdate(rs.getDate(5));
+				Books.setPrice(rs.getString(6));
+				ps1.setString(1, rs.getString(3));
+			
+			}
+			rs1 = ps1.executeQuery();
+			if(rs1.next()){
+				Books.setName(rs1.getString(2));
+				Books.setAge(rs1.getString(3));
+				Books.setCountry(rs1.getString(4));
+			}
+		} finally {
+			SqlUtil.closeConnection(rs, ps, conn);
+			SqlUtil.closeConnection(rs1, ps1, conn1);
+		}
+		
+		return Books;
+	}
+	/*
+	
+	public void update(Books Books , long cm_status) throws SQLException {
+		String sql = "update Books set  cm_place=?, cm_time=?, cm_theme=?, cm_status=? where cm_id=?";
+		PreparedStatement st = null;
+		Connection conn = null;
+
+		try {
+			conn = OracleUtil.getConnection();
+			st = conn.prepareStatement(sql);
+
+			st.setLong(5, Books.getCm_id());
+			st.setString(1, Books.getCm_place());
+			st.setDate(2, Books.getCm_time());
+			st.setString(3, Books.getCm_theme());
+			if(cm_status == 0)
+				st.setString(4,"已结束");
+			if(cm_status == 1)
+				st.setString(4,"正在进行");
+			if(cm_status == 2)
+				st.setString(4,"未开始");
+		
+			st.executeUpdate();
+		} finally {
+			OracleUtil.closeConnection(null, st, conn);
+		}
+	
+	
+	
+	}*/
+	
+}
