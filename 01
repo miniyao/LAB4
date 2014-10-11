@@ -1,0 +1,494 @@
+package cs;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.TreeSet;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+
+
+public class cs {
+	public static void main(String[] args) throws IOException,NumberFormatException,ArrayIndexOutOfBoundsException {
+File file = new File("E:\\Lab1\\PROCESS.txt"); // 读取文件
+BufferedWriter bw1 = new BufferedWriter(new FileWriter("E:\\Lab1\\RESULT.txt", true));
+		File file1 = new File("E:\\Lab1\\RESULT.txt"); // 存放文件
+		File file2 = new File("E:\\Lab1\\REQ.txt"); // 读取文件
+		
+		BufferedReader in = new BufferedReader(new FileReader(file));
+		BufferedReader in1 = new BufferedReader(new FileReader(file2));
+		//////////////////////////////
+		
+		
+		
+		File file0 = new File("E:\\Lab1\\SERVICE.txt"); // 读取文件
+		
+		
+		
+		/////////////////////////////////
+		FileWriter out = new FileWriter(file1); 
+		
+		
+		String[][] str1 = new String[16][500];
+		String[][] str0 = new String[16][500];
+		String[][] pr=new String[1][4];
+		String line; 
+		String line1;
+		String req;
+		int q=0;
+		
+		
+		
+		while ((line = in.readLine()) != null) {///读process一行：(A,B),(A,C),(C,D),(B,G),(D,G)
+			///////////////////////////////
+			
+			if((req = in1.readLine()) != null ){////读req一行：(0.9,20)
+				/////////////////////////////////
+			line=line.replace("(","");
+			line=line.replace(")","");
+			String[] str = line.split(",");
+			
+			req=req.replace("(","");
+			req=req.replace(")","");
+			String[] reqq = req.split(",");
+
+			Set set = new TreeSet();
+			for (int i0 = 0; i0 < str.length; i0++) 
+			{			
+				set.add(str[i0]);		
+			}
+			str = (String[]) set.toArray(new String[0]);
+		/////////
+			int cc=0;
+			double cheng=0.9,jia=20;
+			double[] ch=new double[14];
+			double[] ji=new double[14];
+			for (int i1 = 0; i1 < 14; i1++) /////把ABCD那些什么的挨个读出来
+			{		
+				int ii = i1+1;
+				int i22 = ii*500;/////////尾巴
+				int i11 = i22-500+1;////////开头
+				int right = 0;
+				int iii=0;
+				cheng=0.9;jia=20;
+				//////////
+				
+				BufferedReader in2 = new BufferedReader(new FileReader(file0));
+				while((line1 = in2.readLine()) != null){/////////////////读SERVICE一行：N-497。。。。。。。。。。。。。。。。。。
+					iii++;
+					if(iii>=i11&&iii<=i22)
+					{
+						String[] strr = line1.split(" ");
+						if(Double.valueOf(strr[2]).doubleValue()>=Double.valueOf(reqq[0]).doubleValue()&&Double.valueOf(strr[4]).doubleValue()<=Double.valueOf(reqq[1]).doubleValue())
+						{
+							double dcheng=Double.valueOf(strr[2]).doubleValue();
+							double djia=Double.valueOf(strr[4]).doubleValue();
+							if(dcheng>=cheng&&djia<=jia)
+							{
+								cheng=dcheng;jia=djia;
+								str1[cc][right]=line1;
+								
+								right++;
+							}
+							else if(dcheng<cheng&&djia>jia)
+							{
+								
+							}
+							else
+							{
+								str1[cc][right]=line1;
+								
+								right++;
+								
+							}
+							
+							//if(cc==1)
+								
+						}
+					}
+				
+				
+				}
+				ch[cc]=cheng;
+				ji[cc]=jia;
+				cc++;
+				in2.close();
+				//System.out.print("     cheng:"+cheng+"   jia:"+jia+"\n");
+			}
+			
+			////////操作
+			int i=0;
+			/*for(int aa=0;aa<500;aa++)
+			{
+				i++;
+				System.out.print(str1[1][aa]+"   i:"+i+"\n");
+				if(str1[1][aa+1]==null)
+					break;
+			}
+			System.out.print("\n");
+			
+			
+			System.out.print("\n");
+				*/
+			
+			int nn=0;
+			for(int lm=0;lm<14;lm++)
+			{
+				nn=0;
+			for(int mm=0;mm<500;mm++)
+			{
+				if(choose(2,str1[lm][mm])<ch[lm]&&choose(4,str1[lm][mm])>ji[lm])
+				{
+					
+				}
+				else if(choose(2,str1[lm][mm])<=ch[lm]&&choose(4,str1[lm][mm])>ji[lm])
+				{
+					
+				}
+				else if(choose(2,str1[lm][mm])<ch[lm]&&choose(4,str1[lm][mm])>=ji[lm])
+				{
+					
+				}
+				else
+				{
+					str0[lm][nn]=str1[lm][mm];
+					//System.out.print(str0[lm][nn]+"\n");
+					nn++;
+				}
+				if(str1[lm][mm+1]==null)
+					break;
+				
+			}
+			//System.out.print(ch[lm]+"    "+ji[lm]+"\n");
+			}
+			
+			/*for(int aa=0;aa<500;aa++)
+			{
+				i++;
+				System.out.print(str0[2][aa]+"   i:"+i+"\n");
+				if(str0[2][aa+1]==null)
+					break;
+			}*/
+			break;
+			
+			
+			
+			}
+			break;
+		}
+		File filee = new File("F:\\Lab1\\PROCESS.txt");
+		BufferedReader inn = new BufferedReader(new FileReader(file));
+		
+		/////////////////
+		//////////////
+		
+		
+		
+		////////////////////
+		
+
+		//////////////////////////////
+		int[] luj1={0,1,6};
+		int[] luj11={0,2,3,6};
+		//////////////
+		int[] luj2={0,1,6,10};
+		int[] luj22={0,2,3,6,10};
+		int[] luj222={0,2,4,7,10};
+		///////////////
+		
+		while ((line = inn.readLine()) != null) {
+			///////////////////////////////
+			pr[0][q]=line;
+			q++;
+		}
+		
+		
+		
+		
+		
+		int[] luj3={0,1,6,10,11};
+		int[] luj33={0,2,3,6,10,11};
+		int[] luj333={0,2,4,7,10,11};
+		int[] luj3333={0,2,5,8,10,11};
+		int[] luj33333={0,2,5,9,10,11};
+		///////////////
+		int[] luj4={0,1,6,10,11,13};
+		int[] luj44={0,2,3,6,10,11,13};
+		int[] luj444={0,2,4,7,10,11,13};
+		int[] luj4444={0,2,5,8,11,13};
+		int[] luj44444={0,2,5,8,12,13};
+		//m1=dog(str0,str0,0,1);
+		//m2=dog(m1,str0,0,2);
+		
+		String ii="";
+		String tt=tiger(animal(str0,luj1),animal(str0,luj11));
+		ii=snake(tt,pr,0);
+		System.out.print(ii+"\n");
+		bw1.write(ii+"\r\n");
+		
+		String tt1=tiger(tiger(animal(str0,luj2),animal(str0,luj22)),animal(str0,luj222));
+		ii=snake(tt1,pr,1);
+		System.out.print(ii+"\n");
+		bw1.write(ii+"\r\n");
+		
+		String tc3=tiger(tiger(animal(str0,luj3),animal(str0,luj33)),animal(str0,luj333));
+		String tt3=tiger(tiger(tc3,animal(str0,luj3333)),animal(str0,luj33333));
+		ii=snake(tt3,pr,2);
+		System.out.print(ii+"\n");
+		bw1.write(ii+"\r\n");
+		
+		String tc4=tiger(tiger(animal(str0,luj4),animal(str0,luj44)),animal(str0,luj444));		
+		String tt4=tiger(tiger(tc4,animal(str0,luj4444)),animal(str0,luj44444));
+		ii=snake(tt4,pr,3);
+		System.out.print(ii+"\n");
+		bw1.write(ii+"\r\n");
+		
+		
+		
+		
+		/*int ii=0; snake(cow(m2),pr,0)
+		for(int aa=0;aa<500000;aa++)
+		{
+			ii++;
+			System.out.print(m2[0][aa]+"   i:"+ii+"\n");
+			if(m2[0][aa+1]==null)
+				break;
+		}*/
+		
+		bw1.close();
+		////////写文件
+		
+		/*
+        
+        bw1.write("123456");
+        bw1.flush();
+        
+        
+        */
+		
+		
+	    
+
+	} 
+	
+	///////////////一行中分割并且选单一字符
+	public static double choose(int i,String s)
+	{
+		String[] str = s.split(" ");
+		String ss=str[i];
+		double d=Double.valueOf(ss).doubleValue();
+		return d;
+	}
+	
+	public static String choosess(int i,String s)
+	{
+		String[] str = s.split(" ");
+		String ss=str[i];
+		return ss;
+	}
+	
+	public static String choosess2(int i,String s)
+	{
+		String[] str = s.split(",");
+		String ss=str[i];
+		return ss;
+	}
+	
+	public static String choosess3(int i,String s)
+	{
+		String[] str = s.split("-");
+		String ss=str[i];
+		return ss;
+	}
+	///////////////转ascii码
+	public static int turn(String s)
+	{
+		char k=s.charAt(0);
+		int i=k+0;
+		int ii=i-64;	
+		return ii;
+	}
+
+	
+	
+	public static String[][] fuzhi(String math1[][],String str1[][],int i)
+	{
+		/////////////////////
+		math1=new String[16][500000];
+		/////////////////////
+		for(int a=0;a<500000;a++)
+		{
+			math1[0][a]=str1[i][a];
+			if(str1[0][a+1]==null)
+			{
+			 break;
+			}
+		}
+		return math1;
+	}
+	
+	public static void cat(String str0[][],int luj[])
+	{
+		luj[0]=1;
+		luj[1]=3;
+		luj[2]=4;
+		luj[3]=7;
+		//double d=Double.valueOf(ss).doubleValue();
+		
+		String[][] huanchong =new String[1][50000];
+		String[][] temp =new String[1][50000];
+		
+		double cheng=0,jia=500;
+		
+		huanchong=fuzhi(huanchong,str0,0);
+		int k=0;
+		int kk=0;
+		do
+		{
+			kk=0;
+		
+		for(int n=1;n<=50000;n++)
+		{
+			for(int n1=0;n1<=50;n1++)
+			{
+				double d=choose(2,huanchong[0][n])*choose(2,str0[luj[k]-1][n1]);
+				double dd=choose(4,huanchong[0][n])+choose(4,str0[luj[k]-1][n1]);
+				
+				if(d>=cheng&&dd<=jia)
+				{
+					cheng=d;
+					jia=dd;
+					temp[0][kk]=choosess(0,huanchong[0][n])+","+choosess(0,str0[luj[k]-1][n1])+" "+"0"+" "+d+" "+"0"+" "+dd;
+					kk++;
+				}
+				else if(d<cheng&&dd>=jia)
+				{
+					
+				}
+				else if(d<=cheng&&dd>jia)
+				{
+					
+				}
+				else
+				{
+					temp[0][kk]=choosess(0,huanchong[0][n])+","+choosess(0,str0[luj[k]-1][n1])+" "+"0"+" "+d+" "+"0"+" "+dd;
+					kk++;
+				}
+						
+				if(str0[luj[n]-1][n1+1]==null)
+					break;
+			}
+			if(huanchong[0][n+1]==null)
+				break;
+		}
+		k++;
+		huanchong=fuzhi(huanchong,temp,0);
+		temp=new String[16][500000];
+		}while(luj[k+1]!=0);
+		
+	}
+	
+	public static String[][] dog(String str00[][],String str0[][],int l,int m)
+	{
+		String[][] huanchong =new String[1][500000];
+		int kk=0;
+		for(int n=0;n<500;n++)
+		{
+			for(int nn=0;nn<500;nn++)
+			{
+				double d=choose(2,str00[l][n])*choose(2,str0[m][nn]);
+				double dd=choose(4,str00[l][n])+choose(4,str0[m][nn]);
+				huanchong[0][kk]=choosess(0,str00[l][n])+","+choosess(0,str0[m][nn])+" "+"0"+" "+d+" "+"0"+" "+dd;
+				kk++;
+				if(str0[m][nn+1]==null)
+					break;
+			}
+			if(str00[l][n+1]==null)
+				break;
+		}
+		
+		return huanchong;
+	}
+	
+	public static String[][] bird(String str0[][],int[] i)
+	{
+		int n=0;
+		String[][] bi=new String[16][50000];
+		bi=dog(str0,str0,i[n],i[n+1]);
+		do
+		{
+		bi=dog(bi,str0,0,i[n+2]);
+		n++;
+		}while(n+2!=i.length);
+		return bi;
+	}
+	
+	public static String cow(String str0[][])
+	{
+		double k;
+		double s;
+		String sk="";
+		
+		k=choose(2,str0[0][0])-choose(4,str0[0][0])/100;
+		sk=choosess(0,str0[0][0])+" "+choose(2,str0[0][0])+" "+choose(4,str0[0][0])+" "+k;
+		
+		for(int n=1;n<500000;n++)
+		{
+			s=choose(2,str0[0][n])-choose(4,str0[0][n])/100;
+			if(s>k)
+			{
+				k=s;
+				sk=choosess(0,str0[0][n])+" "+choose(2,str0[0][n])+" "+choose(4,str0[0][n])+" "+k;
+			}
+			if(str0[0][n+1]==null)
+				break;
+		}
+		return sk;
+	}
+	
+	public static String snake(String s,String pr[][],int i)
+	{
+		DecimalFormat df=new DecimalFormat("#.00");
+		String re="";
+		String[] str = s.split(",");
+		String[] ba={"A","B","C","D","E","F","G","H","I","J","K","L","M","N"};
+		for(int n=0;n<14;n++)
+		{
+			for(int nn=0;nn<str.length;nn++)
+			{
+				if(choosess3(0,choosess2(nn,choosess(0,s))).equals(ba[n]))
+				{
+					pr[0][i]=pr[0][i].replace(ba[n],choosess2(nn,choosess(0,s)));
+					break;
+				}
+			
+			}
+
+		}
+		//.substring(0, 4)
+		re=pr[0][i]+"\r\nReliability:"+choosess(1,s)+" Cost:"+choosess(2,s)+" Q:"+choosess(3,s);
+		return re;
+	}
+	
+	public static String tiger(String a,String b)
+	{
+		String ti="";
+		double d=choose(1,a)*choose(1,b);
+		double dd=choose(2,a)+choose(2,b);
+		double c=d-dd/100;
+		ti=choosess(0,a)+","+choosess(0,b)+" "+d+" "+dd+" "+c;
+		
+		
+		return ti;
+	}
+
+	public static String animal(String str0[][],int ln[])
+	{
+		return cow(bird(str0,ln));
+	}
+}
+
