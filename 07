@@ -1,0 +1,147 @@
+package test;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.geom.*;
+import java.awt.event.*;
+public class Game
+{
+    public static void main(String[] args)
+    {
+        EventQueue.invokeLater(new Runnable()
+        {
+            public void run()
+            {
+                GameFrame frame=new GameFrame();
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setVisible(true);
+            }
+        });
+    }
+}
+
+class GameFrame extends JFrame
+{
+    public GameFrame()
+    {
+        Toolkit kit=Toolkit.getDefaultToolkit();
+        Dimension screenSize=kit.getScreenSize();
+        int screenWidth=screenSize.width;//1366
+        int screenHeight=screenSize.height;	//768
+
+        setTitle("小yao游戏");
+        setSize(DEFAULT_WIDTH,DEFAULT_HEIGHT);
+        this.setResizable(false);                     //不可变化窗口大小
+        int x=400;
+        int y=100;
+        setLocation(x,y);
+
+        GameComponent component=new GameComponent();
+        add(component);
+    }
+    public static final int DEFAULT_WIDTH=505;
+    public static final int DEFAULT_HEIGHT=529;
+}
+
+
+class GameComponent extends JComponent
+{
+    public void paintComponent(Graphics g)
+    {
+        Graphics2D g2=(Graphics2D)g;
+
+        Rectangle2D rect=new Rectangle2D.Double(x[0],y[0],100,100);
+        g2.setPaint(Color.BLUE);
+        g2.fill(rect);
+
+        //画中间
+        Rectangle2D rect5=new Rectangle2D.Double(200,200,100,100);
+        Line2D line1=new Line2D.Double(0,0,0,0);
+        Line2D line2=new Line2D.Double(0,0,0,0);
+        g2.setPaint(Color.RED);
+
+        g2.draw(rect5);
+        g2.draw(line1);
+        g2.draw(line2);
+
+
+        Final(g);			//判断游戏是否结束
+
+        repaint();
+
+    }
+
+
+
+    public GameComponent()
+    {
+        GameKeyListener key = new GameKeyListener();
+        addKeyListener(key);
+        setFocusable(true);
+    }
+
+
+    public void Final(Graphics g)
+    {
+    	if((x[0]==200)&&(y[0]==200))
+    	{		
+            g.setFont(new Font("幼圆",Font.BOLD+Font.ITALIC,25));
+            g.setColor(Color.RED);
+            g.drawString("You Win！",200,100);    		
+    	}
+    }
+
+    public void collide(int key,int A)
+    {
+        int i;
+        
+        //撞到四壁时停止移动
+
+        if(key==KeyEvent.VK_LEFT)
+        {
+            if(x[A]!=0)
+              x[A]-=50;
+        }
+        else if(key==KeyEvent.VK_RIGHT)
+        {
+            if(x[A]!=450)
+               x[A]+=50;
+        }
+
+        else if(key==KeyEvent.VK_UP)
+        {
+            if(y[A]!=0)
+               y[A]-=50;
+        }
+        else if(key==KeyEvent.VK_DOWN)
+        {
+            if(y[A]!=450)
+                y[A]+=50;
+        }
+
+       
+    }
+
+
+
+    class GameKeyListener implements KeyListener
+    {
+        public void keyPressed(KeyEvent e)
+        {
+            int key = e.getKeyCode();
+            collide(key,0);
+        }
+
+
+        public void keyReleased(KeyEvent e)
+        {
+        }
+        public void keyTyped(KeyEvent e)
+        {
+        }
+    }
+
+    private int[] x = {0,450,0,450};
+    private int[] y = {0,0,450,450};
+    private int A = 0;
+}
